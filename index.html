@@ -5,6 +5,7 @@
   <title>My Life Gallery</title>
   <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
+  
 <body>
 <h1>My Life Gallery</h1>
 <div class="gallery">
@@ -29,5 +30,59 @@
     <p>Work life</p>
   </div>
 </div>
+
+  <div id="chaos-layer"></div>
+
+<script>
+  const chaos = document.getElementById('chaos-layer');
+  let interval;
+
+  document.querySelectorAll('.item img').forEach(img => {
+    img.addEventListener('mouseenter', () => {
+      interval = setInterval(() => {
+        // Random background flash
+        document.body.style.backgroundColor = randomColor();
+
+        // Random colored shape
+        const shape = document.createElement('div');
+        shape.classList.add('chaos-shape');
+        shape.style.width = rand(30, 150) + 'px';
+        shape.style.height = rand(30, 150) + 'px';
+        shape.style.background = randomColor();
+        shape.style.left = rand(0, window.innerWidth) + 'px';
+        shape.style.top = rand(0, window.innerHeight) + 'px';
+        shape.style.borderRadius = rand(0, 50) + '%';
+        chaos.appendChild(shape);
+        setTimeout(() => shape.remove(), 500);
+
+        // Random number
+        const num = document.createElement('div');
+        num.classList.add('chaos-number');
+        num.innerText = rand(0, 99999);
+        num.style.left = rand(0, window.innerWidth) + 'px';
+        num.style.top = rand(0, window.innerHeight) + 'px';
+        num.style.color = randomColor();
+        chaos.appendChild(num);
+        setTimeout(() => num.remove(), 400);
+
+      }, 100);
+    });
+
+    img.addEventListener('mouseleave', () => {
+      clearInterval(interval);
+      chaos.innerHTML = '';
+      document.body.style.backgroundColor = '';
+    });
+  });
+
+  function rand(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+
+  function randomColor() {
+    return `hsl(${rand(0, 360)}, 100%, 50%)`;
+  }
+</script>
+  
 </body>
 </html>
